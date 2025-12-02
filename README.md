@@ -1,120 +1,53 @@
-# Мини „Библиотечна система“
+# Проект: Мини „Библиотечна система" (Library System)
 
-## Цел
-Да се създаде малка система от пет свързани класа (Author, Book, Member, Loan, Library), чрез която се упражняват основните концепции за класове в C++, включително:
+## Описание
 
-- Конструктори и деструктори  
-- Списък за инициализация  
-- Getters и setters с валидация  
-- `to_string()` методи  
-- Статични членове и const методи  
-- Добри практики (explicit, const-коректност, = default, Rule of 3/5)  
+Проектът „Библиотечна система" представлява малка C++ система, която моделира работа с книги, автори, читатели и заеми чрез пет взаимосвързани класа — Author, Book, Member, Loan и Library.
+Този README е създаден заедно с main.cpp, който демонстрира основните функционалности на системата.
 
----
+Системата показва:
 
-## Изисквания към класовете
-
-### 1) Клас Author
-**Членове:**  
-- `string name` – име на автора  
-- `int birthYear` – година на раждане  
-
-**Конструктори:**  
-- Конструктор по подразбиране: `name = "Unknown"`, `birthYear = 1900`  
-- Параметризиран конструктор със списък за инициализация  
-
-**Методи:**  
-- `string to_string() const` – връща името и годината на автора  
-- Getters за всички полета  
-- Setter `setBirthYear(int)` с валидация (1850–2025)  
+* добавяне на книги и членове;
+* създаване на заем и проверка за наличност;
+* връщане на книги;
+* търсене на книги по автор;
+* използване на статични членове, const методи и валидация на данни.
 
 ---
 
-### 2) Клас Book
-**Членове:**  
-- `string title`  
-- `Author author`  
-- `int year`  
-- `double price`  
-- `string isbn`  
-- `static int totalBooks` – брояч на всички създадени книги  
+## Структура на проекта
 
-**Конструктори и оператори (Rule of 5):**  
-- Конструктор по подразбиране  
-- Параметризиран конструктор  
-- Копиращ и преместващ конструктор  
-- Копиращ и преместващ оператор  
-- Деструктор (`~Book()`)  
-
-**Методи:**  
-- `string to_string() const` – текстово представяне  
-- Getters  
-- Статичен метод `getTotalBooks()`  
-
-**Валидации:**  
-- `year` – разумен диапазон (1450–2025)  
-- `price` – ≥ 0  
+```
+library_homework/
+├── Author.h
+├── Book.h
+├── Member.h
+├── Loan.h
+├── Library.h
+├── main.cpp
+└── README.md
+```
 
 ---
 
-### 3) Клас Member
-**Членове:**  
-- `string name`  
-- `string memberId`  
-- `int yearJoined`  
+## Компилация и изпълнение
 
-**Конструктори:**  
-- По подразбиране и параметризиран  
+Отворете терминал в директорията `library_homework/` и изпълнете:
 
-**Методи:**  
-- `bool isValid() const` – memberId не е празен  
-- `string to_string() const`  
+```bash
+ g++ -std=gnu++17 -Wall -Wextra -O2 -o library main.cpp
+```
 
----
+След това стартирайте програмата:
 
-### 4) Клас Loan
-**Членове:**  
-- `string isbn`  
-- `string memberId`  
-- `string startDate`  
-- `string dueDate`  
-- `bool returned`  
-
-**Конструктор:**  
-- Параметризиран, с валидация `dueDate >= startDate`  
-
-**Методи:**  
-- `void markReturned()`  
-- `bool isReturned() const`  
-- `bool isOverdue(const string& today) const`  
-- `string to_string() const`  
+```bash
+./library      # Linux / macOS
+```
 
 ---
 
-### 5) Клас Library
-**Членове:**  
-- `vector<Book> books`  
-- `vector<Member> members`  
-- `vector<Loan> loans`  
+## main.cpp
 
-**Методи:**  
-- `void addBook(const Book& b)`  
-- `void addMember(const Member& m)`  
-- `bool hasBook(const string& isbn) const`  
-- `bool isBookAvailable(const string& isbn) const`  
-- `bool loanBook(const string& isbn, const string& memberId, const string& start, const string& due)`  
-- `bool returnBook(const string& isbn, const string& memberId)`  
-- `vector<Book> findByAuthor(const string& authorName) const`  
-- `string to_string() const` – обобщена информация  
-
-**Добри практики:**  
-- Const-коректност  
-- Без „голи“ указатели  
-- Ясни инварианти  
-
----
-
-## Примерен код за тестване
 ```cpp
 #include <iostream>
 #include "Library.h"
@@ -139,7 +72,9 @@ int main() {
 
     std::cout << "Available ISBN-001? " << std::boolalpha
               << lib.isBookAvailable("ISBN-001") << "\n";
+
     lib.returnBook("ISBN-001", "M001");
+
     std::cout << "Available ISBN-001? " << std::boolalpha
               << lib.isBookAvailable("ISBN-001") << "\n";
 
@@ -148,16 +83,135 @@ int main() {
 
     return 0;
 }
- ```
+```
+
+---
+
 ## Примерен изход
-```cpp
-Books: 2, Members: 1, Loans: 0
+
+```
+Books: 2, Members: 1, Loans: 1
 Loan created.
 Available ISBN-001? false
 Available ISBN-001? true
-The intelgent investor | Benjaming Graham (1850) | 1850 | 17.500000 BGN | ISBN-001
-Cyber specialist | Benjaming Graham (1850) | 1845 | 123.300000 BGN | ISBN-002
+The intelgent investor | Benjaming Graham (1812) | 1850 | 17.500000 BGN | ISBN-001
+Cyber specialist | Benjaming Graham (1812) | 1845 | 123.300000 BGN | ISBN-002
 ```
- ## Компилация
-- `g++ -std=gnu++17 -Wall -Wextra -O2 -o library main.cpp
-- `.\library
+
+---
+
+## Класове
+
+### Клас Author
+
+Представя автор с основни характеристики.
+
+**Членове:**
+
+* `std::string name`
+* `int birthYear`
+
+**Методи:**
+
+* Конструктори (по подразбиране и параметризиран)
+* `std::string to_string() const`
+* Getters и setter с валидация (1850–2025)
+
+---
+
+### Клас Book
+
+Представя книга.
+
+**Членове:**
+
+* `std::string title`
+* `Author author`
+* `int year`
+* `double price`
+* `std::string isbn`
+* `static int totalBooks`
+
+**Методи:**
+
+* Конструктори (по подразбиране, параметризиран, копиращ и преместващ)
+* Деструктор
+* `std::string to_string() const`
+* Getters
+* `static int getTotalBooks()`
+
+**Валидации:**
+
+* `year` 1450–2025
+* `price >= 0`
+
+---
+
+### Клас Member
+
+Представя читател.
+
+**Членове:**
+
+* `std::string name`
+* `std::string memberId`
+* `int yearJoined`
+
+**Методи:**
+
+* `bool isValid() const`
+* `std::string to_string() const`
+
+---
+
+### Клас Loan
+
+Представя заем на книга.
+
+**Членове:**
+
+* `std::string isbn`
+* `std::string memberId`
+* `std::string startDate`
+* `std::string dueDate`
+* `bool returned`
+
+**Методи:**
+
+* `void markReturned()`
+* `bool isReturned() const`
+* `bool isOverdue(const std::string& today) const`
+* `std::string to_string() const`
+
+---
+
+### Клас Library
+
+Представя библиотека с книги и членове.
+
+**Членове:**
+
+* `std::vector<Book> books`
+* `std::vector<Member> members`
+* `std::vector<Loan> loans`
+
+**Методи:**
+
+* `void addBook(const Book& b)`
+* `void addMember(const Member& m)`
+* `bool hasBook(const std::string& isbn) const`
+* `bool isBookAvailable(const std::string& isbn) const`
+* `bool loanBook(const std::string& isbn, const std::string& memberId, const std::string& start, const std::string& due)`
+* `bool returnBook(const std::string& isbn, const std::string& memberId)`
+* `std::vector<Book> findByAuthor(const std::string& authorName) const`
+* `std::string to_string() const`
+
+---
+
+## Автор
+
+* Име: ИВЕЛИН БОРИСЛАВОВ РАЙНОВСКИ
+* Номер: 22315
+* Курс: Обектно-ориентирано програмиране (C++)
+* Дата: 12/2/2025
+
