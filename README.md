@@ -150,14 +150,14 @@ int main() {
 }
  ```
 ## Примерен изход
+```cpp
 Books: 2, Members: 1, Loans: 0
 Loan created.
 Available ISBN-001? false
 Available ISBN-001? true
 The intelgent investor | Benjaming Graham (1850) | 1850 | 17.500000 BGN | ISBN-001
 Cyber specialist | Benjaming Graham (1850) | 1845 | 123.300000 BGN | ISBN-002
-
-
+```
  ## Компилация
- -g++ -std=gnu++17 -Wall -Wextra -O2 -o library main.cpp
- -.\library
+- `g++ -std=gnu++17 -Wall -Wextra -O2 -o library main.cpp
+- `.\library
