@@ -211,6 +211,7 @@ Cyber specialist | Benjaming Graham (1812) | 1845 | 123.300000 BGN | ISBN-002
 ## ЕКРАННА СНИМКА:
 <img width="1911" height="1012" alt="output" src="https://github.com/user-attachments/assets/986c3b0c-a0db-44b8-ba8c-f65d94f1d285" />
 
+---
 
 ## Автор
 
